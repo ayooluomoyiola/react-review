@@ -22,14 +22,17 @@ import Settings from "./components/advanced/3/Protected/Settings";
 import { SchoolProvider } from "./components/advanced/3/Public/SchoolContext";
 import CoursePage from "./components/advanced/3/Public/CoursePage";
 import CoursesPage from "./components/advanced/3/Public/CoursesPage";
+import Assignments from "./components/advanced/3/Public/Assigments";
+import SchoolLayout from "./components/advanced/3/Public/SchoolLayout";
+import ProtectedRoute from "./components/advanced/3/Protected/ProtectedRoute";
 
 function App() {
   return (
     <>
-      <ProductProvider>
-        <ProductAPIProvider>
-          <SchoolProvider>
-            <BrowserRouter>
+      <BrowserRouter>
+        <ProductProvider>
+          <ProductAPIProvider>
+            <SchoolProvider>
               <Routes>
                 <Route path="" element={<Home />} />
                 <Route path="/homepage" element={<Homepage />} />
@@ -55,28 +58,37 @@ function App() {
 
                 <Route path="/schools" element={<Landing />} />
                 <Route path="/schools/login" element={<Login />} />
-                <Route
-                  path="/schools/:schoolId/dashboard"
-                  element={<Dashboard />}
-                />
-                <Route
-                  path="/schools/:schoolId/courses/"
-                  element={<CoursesPage />}
-                />
-                <Route
-                  path="/schools/:schoolId/courses/:courseId"
-                  element={<CoursePage />}
-                />
-                <Route path="/schools/:schoolId/users" element={<Users />} />
-                <Route
-                  path="/schools/:schoolId/settings"
-                  element={<Settings />}
-                />
+
+                <Route path="/schools/:schoolId" element={<SchoolLayout />}>
+                  <Route path="dashboard" element={<Dashboard />} />
+                  <Route path="courses" element={<CoursesPage />} />
+                  <Route path="courses/:courseId" element={<CoursePage />} />
+                  <Route
+                    path="courses/:courseId/assignments"
+                    element={<Assignments />}
+                  />
+                  <Route
+                    path="users"
+                    element={
+                      <ProtectedRoute requiredRole="admin">
+                        <Users />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="settings"
+                    element={
+                      <ProtectedRoute requiredRole="admin">
+                        <Settings />
+                      </ProtectedRoute>
+                    }
+                  />
+                </Route>
               </Routes>
-            </BrowserRouter>
-          </SchoolProvider>
-        </ProductAPIProvider>
-      </ProductProvider>
+            </SchoolProvider>
+          </ProductAPIProvider>
+        </ProductProvider>
+      </BrowserRouter>
     </>
   );
 }

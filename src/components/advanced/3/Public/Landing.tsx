@@ -1,7 +1,11 @@
+import { Link } from "react-router-dom";
+
 const Landing = () => {
   return (
-    <div>Landing</div>
-  )
-}
+    <Link to="/schools/login">
+      <button>Login</button>
+    </Link>
+  );
+};
 
-export default Landing
+export default Landing;

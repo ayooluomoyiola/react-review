@@ -15,7 +15,7 @@ const Dashboard = () => {
 
   return (
     <div>
-      <h1>{school.name}</h1>
+      <h3>Dashboard</h3>
     </div>
   );
 };
